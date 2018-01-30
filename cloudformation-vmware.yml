@@ -6,7 +6,7 @@
   vars:
     provider_id: "21000000000002"
     max_retries: 9
-    retry_interval: 20
+    retry_interval: 25
 
   tasks:
     - debug: var=vcenter_hostname
