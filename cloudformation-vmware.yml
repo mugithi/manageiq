@@ -103,9 +103,6 @@
         body_format: json
         return_content: yes
       register: token_output
-      failed_when: token_output.json.resources[0].href == "null"
-      retries: "{{max_retries}}"
-      delay: "{{retry_interval}}"
     - debug: var=token_output
 
     - set_fact: cf_vm_href="{{ token_output.json.resources[0].href }}"
