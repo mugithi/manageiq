@@ -31,7 +31,10 @@
       vmware_guest:
         validate_certs: no
         hostname: "{{ vcenter_hostname }}"
-        
+      
+
+
+      
         
         datacenter: "{{ datacenter }}"
         name: "{{ vm_name }}"

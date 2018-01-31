@@ -13,7 +13,7 @@
     cpus: 2
     memory: 512
     template: "TemplateW2012-Cloudforms"
-    vm_name: "Ansible_manual02"
+    vm_name: "Ansible_manual03"
     datacenter: Engineering
     esxi_host: "dl-en-esx01.dasherdemo.com"
 
@@ -27,6 +27,7 @@
           password: '1Dasher!'
 
           datacenter: "{{ datacenter }}"
+          cluster: "{{ datacenter }}"
           name: "{{ vm_name }}"
     
           state: poweredon
