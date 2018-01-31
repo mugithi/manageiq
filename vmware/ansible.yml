@@ -1,0 +1,83 @@
+---
+
+- name: GET STRUCTURED DATA BACK FROM CLI DEVICES
+
+  hosts: localhost
+  gather_facts: False
+
+  vars:
+    provider_id: "21000000000002"
+    max_retries: 9
+    retry_interval: 20
+    disk_size: 45
+    cpus: 2
+    memory: 512
+    template: "TemplateW2012-Cloudforms"
+    vm_name: "Ansible_manual02"
+    datacenter: Engineering
+    esxi_host: "dl-en-esx01.dasherdemo.com"
+
+  tasks:
+      - name: Create Virtual Machines
+        vmware_guest:
+          validate_certs: no
+          hostname: 'dl-vcenter.dasherdemo.com'
+          
+          username: 'administrator@vsphere.local'
+          password: '1Dasher!'
+
+          datacenter: "{{ datacenter }}"
+          name: "{{ vm_name }}"
+    
+          state: poweredon
+          template: "{{ template }}"
+  
+          disk:
+            - size_gb: "{{ disk_size}}"
+              type: thin
+              autoselect_datastore: "True"
+        
+
+          hardware:
+              memory_mb: "{{ memory }}"
+              num_cpus: "{{ cpus }}"
+          wait_for_ip_address: yes
+        delegate_to: localhost
+
+        register: new_vm 
+      - debug: var=new_vm
+
+      - set_fact: new_vm_uuid="{{ new_vm.instance.hw_product_uuid }}"
+      - debug: var=new_vm_uuid
+
+      
+      - set_fact: api_url="https://172.17.100.105"
+      - debug: var=api_url
+
+
+      - set_fact: find_vm_url='{{ api_url }}/api/vms?expand=resources&attributes=href,uid_ems&filter[]=uid_ems={{ new_vm_uuid }}'
+      - debug: var=find_vm_url
+
+
+      - name: Call to CloudForms to find href for new_vm_uuid
+        uri:
+          url: "{{ find_vm_url }}"
+          method: GET
+          validate_certs: False
+          user: 'admin'
+          password: "smartvm"
+          force_basic_auth: yes
+          body_format: json
+          return_content: yes
+        register: token_output
+        until: token_output.json.resources != []
+        retries: "{{max_retries}}"
+        delay: "{{retry_interval}}"
+        ignore_errors: yes
+      - debug: var=token_output.json.resources
+
+
+      # - set_fact: cf_vm_href="{{ token_output.json.resources[0].href }}"
+
+
+      # - debug: var=cf_vm_href
