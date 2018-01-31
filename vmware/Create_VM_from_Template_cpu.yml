@@ -28,25 +28,27 @@
     - debug: var=svc_url 
 
     - name: Create Virtual Machines
-        vmware_guest:
-          validate_certs: no
-          hostname: "{{ vcenter_hostname }}"
-          
-          datacenter: "{{ datacenter }}"
-          name: "{{ vm_name }}"
-    
-          state: poweredon
-          template: "{{ template }}"
+      vmware_guest:
+        validate_certs: no
+        hostname: "{{ vcenter_hostname }}"
+        
+        
+        datacenter: "{{ datacenter }}"
+        cluster: "{{ datacenter }}"
+        name: "{{ vm_name }}"
   
-          disk:
-            - size_gb: "{{ disk_size}}"
-              type: thin
-              autoselect_datastore: "True"
+        state: poweredon
+        template: "{{ template }}"
 
-          hardware:
-              memory_mb: "{{ memory }}"
-              num_cpus: "{{ cpus }}"
-          wait_for_ip_address: yes
+        disk:
+          - size_gb: "{{ disk_size}}"
+            type: thin
+            autoselect_datastore: "True"
+
+        hardware:
+            memory_mb: "{{ memory }}"
+            num_cpus: "{{ cpus }}"
+        wait_for_ip_address: yes
       delegate_to: localhost
 
       register: new_vm 
