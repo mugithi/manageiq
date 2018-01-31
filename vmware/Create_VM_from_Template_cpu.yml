@@ -34,20 +34,19 @@
         
         
         datacenter: "{{ datacenter }}"
-        cluster: "{{ datacenter }}"
         name: "{{ vm_name }}"
   
         state: poweredon
         template: "{{ template }}"
 
         disk:
-          - size_gb: "{{ disk_size}}"
-            type: thin
-            autoselect_datastore: "True"
+        - size_gb: "{{ disk_size}}"
+          type: thin
+          autoselect_datastore: "True"
 
         hardware:
-            memory_mb: "{{ memory }}"
-            num_cpus: "{{ cpus }}"
+          memory_mb: "{{ memory }}"
+          num_cpus: "{{ cpus }}"
         wait_for_ip_address: yes
       delegate_to: localhost
 
