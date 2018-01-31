@@ -103,6 +103,10 @@
         body_format: json
         return_content: yes
       register: token_output
+      until: token_output.json.resources != []
+      retries: "{{max_retries}}"
+      delay: "{{retry_interval}}"
+      ignore_errors: yes
 
     - debug: var=token_output
 
