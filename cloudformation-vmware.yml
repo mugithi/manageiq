@@ -89,27 +89,13 @@
     - debug: var=task_result
 
     - set_fact: find_vm_url='{{ manageiq.api_url }}/api/vms?expand=resources&attributes=href,uid_ems&filter[]=uid_ems={{ new_vm_uuid }}'
-
     - debug: var=find_vm_url
-
-    - name: Call to CloudForms to find href for new_vm_uuid 01
-      uri:
-        url: "{{ find_vm_url }}"
-        method: GET
-        validate_certs: no
-        headers:
-           X-Auth-Token: "{{ manageiq.api_token }}"
-           Content-Type: "application/json"
-        body_format: json
-        return_content: yes
-      register: token_output01
-    - debug: var=token_output01
     
     - name: Call to CloudForms to find href for new_vm_uuid
       uri:
         url: "{{ find_vm_url }}"
         method: GET
-        validate_certs: no
+        validate_certs: False
         headers:
            X-Auth-Token: "{{ manageiq.api_token }}"
            Content-Type: "application/json"
