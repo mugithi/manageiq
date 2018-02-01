@@ -48,7 +48,7 @@
         hardware:
           memory_mb: "{{ memory }}"
           num_cpus: "{{ cpus }}"
-        wait_for_ip_address: yes
+        wait_for_ip_address: no
       delegate_to: localhost
 
       register: new_vm 
