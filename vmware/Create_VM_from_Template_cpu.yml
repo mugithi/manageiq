@@ -34,10 +34,11 @@
       
 
 
-      
+
         
         datacenter: "{{ datacenter }}"
         name: "{{ vm_name }}"
+        esxi_hostname: "{{ esxi_host }}"
   
         state: poweredon
         template: "{{ template }}"
