@@ -31,9 +31,6 @@
         validate_certs: no
         hostname: "{{ vcenter_hostname }}"
       
-
-
-
         
         datacenter: "{{ datacenter }}"
         cluster: "{{ datacenter }}"
