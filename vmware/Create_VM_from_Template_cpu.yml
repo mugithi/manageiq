@@ -35,6 +35,7 @@
         datacenter: "{{ datacenter }}"
         cluster: "{{ datacenter }}"
         name: "{{ vm_name }}"
+        folder: "/CloudForms Provisioned Virtual Machines"
       
   
         state: poweredon
